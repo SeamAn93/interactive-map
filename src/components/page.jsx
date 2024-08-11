@@ -4,24 +4,24 @@ import "./style.css"
 
 const GoogleMaps =({
     radius,
-    setLatitude,
     style,
     address,
     setAddress,
     latitude,
+    setLatitude,
     longitude,
     setLongitude
 }) => {
     const [map, setMap] = useState(null);
     const {isLoaded} = useLoadScript ({
-        googleMapsApiKey: process.env.REACT_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
         libraries: ["places"],
-    })
+    });
 
-    const center = useMemo(() => ({ lat: latitude, lng: longitude}), [latitude,longitude])
+    const center = useMemo(() => ({ lat: latitude, lng: longitude}), [latitude,longitude]);
 
-    const changeCoordinate = (coord, index) => {
-        const {latLng} = coord;
+    const changeCoordinate = (cord, index) => {
+        const {latLng} = cord;
         const lat = latLng.lat();
         const lng = latLng.lng();
         setLatitude(lat);
@@ -34,7 +34,7 @@ const GoogleMaps =({
 
     const inputRef = useRef();
     const handlePlaceChanged = () => {
-        const [place] = inputRef.current.getPlace();
+        const [place] = inputRef.current.getplaces();
 
         if (place){
             setAddress(place.formatted_address)
@@ -44,15 +44,16 @@ const GoogleMaps =({
     }
 
     return (
-        <div className="">
+        <div className="map__container__height">
     {
         !isLoaded ? (
-            <h1>Loading...</h1>
+            <h1 className="map__container__load">Loading...</h1>
         ) : (
+
             <GoogleMap
             mapContainerClassName="map-container"
             center={center}
-            zoom={10}
+            zoom={16}
             onLoad={(map) => setMap(map)}
             >
 
@@ -60,13 +61,11 @@ const GoogleMaps =({
                 onLoad={(ref) => (inputRef.current = ref)}
                 onPladcesChanged={handlePlaceChanged}
                 >
-                    <div className="">
-                        <input type="text" className={`${style}`} value={address} placeholder="Search Location" onChange={(e) => setAddress(e.target.value)}/>
+                    <div className="search__bar">
+                        <input type="text" className={`search__bar__style {$Style}`} value={address} placeholder="Search Location" onChange={(e) => setAddress(e.target.value)}/>
                     </div>
 
                 </StandaloneSearchBox>
-
-                <button onClick={() => map.panTo({let: latitude, lng: longitude})} className=""><span className="">Click her</span></button>
 
                 <Marker
                     draggable

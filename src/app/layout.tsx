@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
     <RunBootstrap/>
-      <body className={inter.className}>{children}</body>
+      <body className={`{inter.className} main__color`}>{children}</body>
     </html>
   );
 }
